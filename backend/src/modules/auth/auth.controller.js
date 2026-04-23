@@ -11,14 +11,14 @@ async function login(req, res) {
     if (!result) return res.status(401).json({ error: "Invalid credentials" });
 
     res.json(result);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Internal server error" });
   }
 }
 
 async function register(req, res) {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     if (!name || !email || !password)
       return res
         .status(400)
@@ -43,7 +43,7 @@ async function me(req, res) {
     const user = await authService.getMe(req.user.id);
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
-  } catch (err) {
+  } catch {
     res.status(500).json({ error: "Internal server error" });
   }
 }
