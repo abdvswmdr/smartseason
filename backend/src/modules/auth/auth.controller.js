@@ -1,51 +1,36 @@
 const authService = require("./auth.service");
 const { AppError } = require("../../utils/errors");
+const asyncHandler = require("../../middleware/asyncHandler");
 
-async function login(req, res) {
-  try {
-    const { email, password } = req.body;
-    if (!email || !password)
-      return res.status(400).json({ error: "Email and password required" });
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    throw new AppError("Email and password required", 400);
 
-    const result = await authService.login(email, password);
-    if (!result) return res.status(401).json({ error: "Invalid credentials" });
+  const result = await authService.login(email, password);
+  if (!result) throw new AppError("Invalid credentials", 401);
 
-    res.json(result);
-  } catch {
-    res.status(500).json({ error: "Internal server error" });
-  }
-}
+  res.json(result);
+});
 
-async function register(req, res) {
-  try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password)
-      return res
-        .status(400)
-        .json({ error: "name, email and password required" });
+const register = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
+  if (!name || !email || !password)
+    throw new AppError("name, email and password required", 400);
 
-    const user = await authService.register({
-      name,
-      email,
-      password,
-      role: "agent",
-    });
-    res.status(201).json(user);
-  } catch (err) {
-    if (err instanceof AppError)
-      return res.status(err.statusCode).json({ error: err.message });
-    res.status(500).json({ error: "Internal server error" });
-  }
-}
+  const user = await authService.register({
+    name,
+    email,
+    password,
+    role: "agent",
+  });
+  res.status(201).json(user);
+});
 
-async function me(req, res) {
-  try {
-    const user = await authService.getMe(req.user.id);
-    if (!user) return res.status(404).json({ error: "User not found" });
-    res.json(user);
-  } catch {
-    res.status(500).json({ error: "Internal server error" });
-  }
-}
+const me = asyncHandler(async (req, res) => {
+  const user = await authService.getMe(req.user.id);
+  if (!user) throw new AppError("User not found", 404);
+  res.json(user);
+});
 
 module.exports = { login, register, me };
