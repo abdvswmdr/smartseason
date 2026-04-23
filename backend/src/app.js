@@ -11,6 +11,10 @@ app.use(express.json());
 app.use("/api/auth", require("./modules/auth/auth.router"));
 app.use("/api/users", require("./modules/users/users.router"));
 app.use("/api/fields", require("./modules/fields/fields.router"));
+app.use(
+  "/api/fields/:fieldId/updates",
+  require("./modules/updates/updates.router"),
+);
 
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 const PORT = process.env.PORT || 3000;
