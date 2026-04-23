@@ -11,7 +11,7 @@ async function login(req, res) {
 
     res.json(result);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -27,7 +27,7 @@ async function register(req, res) {
     res.status(201).json(user);
   } catch (err) {
     const status = err.message === "Email already in use!" ? 409 : 500;
-    res.status(status).json({ error: err.message });
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
@@ -37,7 +37,7 @@ async function me(req, res) {
     if (!user) return res.status(404).json({ error: "User not found" });
     res.json(user);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 
