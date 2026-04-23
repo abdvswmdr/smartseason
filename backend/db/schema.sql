@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS smartseason-db;
+CREATE DATABASE IF NOT EXISTS `smartseason-db`;
 
 USE smartseason;
 

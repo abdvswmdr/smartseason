@@ -1,4 +1,4 @@
-USE smartseason-db;
+USE `smartseason-db`;
 
 -- passwords are bcrypt hashes
 INSERT INTO
