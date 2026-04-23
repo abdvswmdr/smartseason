@@ -1,4 +1,5 @@
 const authService = require("./auth.service");
+const { AppError } = require("../../utils/errors");
 
 async function login(req, res) {
   try {
@@ -23,10 +24,16 @@ async function register(req, res) {
         .status(400)
         .json({ error: "name, email and password required" });
 
-    const user = await authService.register({ name, email, password, role });
+    const user = await authService.register({
+      name,
+      email,
+      password,
+      role: "agent",
+    });
     res.status(201).json(user);
   } catch (err) {
-    const status = err.message === "Email already in use!" ? 409 : 500;
+    if (err instanceof AppError)
+      return res.status(err.statusCode).json({ error: err.message });
     res.status(500).json({ error: "Internal server error" });
   }
 }
