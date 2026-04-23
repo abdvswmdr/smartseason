@@ -9,6 +9,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", require("./modules/auth/auth.router"));
+app.use("/api/users", require("./modules/users//users.router"));
 
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 const PORT = process.env.PORT || 3000;
