@@ -30,6 +30,14 @@ export default function App() {
             }
           />
           <Route
+            path="/admin/fields/new"
+            element={
+              <RoleRoute role="admin">
+                <FieldForm />
+              </RoleRoute>
+            }
+          />
+          <Route
             path="/fields/:id"
             element={
               <ProtectedRoute>
