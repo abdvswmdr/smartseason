@@ -2,12 +2,14 @@ require("dotenv").config();
 const env = require("./config/env");
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
+app.use(helmet());
 app.use(cors({ origin: env.server.frontendUrl }));
-app.use(express.json());
+app.use(express.json({ limit: "10kb" }));
 
 app.use("/api/auth", require("./modules/auth/auth.router"));
 app.use("/api/users", require("./modules/users/users.router"));
