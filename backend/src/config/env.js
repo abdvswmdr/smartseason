@@ -1,5 +1,3 @@
-// /backend/src/config/env.js
-// validates on startup and fails fast
 const required = ["DB_HOST", "DB_USER", "DB_PASSWORD", "DB_NAME", "JWT_SECRET"];
 
 for (const key of required) {
