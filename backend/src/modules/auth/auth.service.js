@@ -24,7 +24,7 @@ async function login(email, password) {
   };
 }
 
-async function register({ name, email, password, role = "agent" }) {
+async function register({ name, email, password, role }) {
   const [[existing]] = await pool.query(
     "SELECT id FROM users WHERE email = ?",
     [email],
