@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import AgentDashboard from "./pages/AgentDashboard";
 import FieldDetail from "./pages/FieldDetail";
+import FieldForm from "./pages/FieldForm";
 
 export default function App() {
   return (
