@@ -9,6 +9,7 @@ function authenticate(req, res, next) {
 
   const token = header.slice(7);
   try {
+    // no DB lookup on every req
     req.user = jwt.verify(token, jwtConfig.secret);
     next();
   } catch {
