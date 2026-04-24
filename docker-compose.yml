@@ -1,6 +1,7 @@
 services:
   mysql:
     image: mysql:8.0.36
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
