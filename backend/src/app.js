@@ -1,23 +1,23 @@
 require("dotenv").config();
+const env = require("./config/env");
 const express = require("express");
 const cors = require("cors");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
-app.use(cors({ origin: process.env.FRONTEND_URL || "http://localhost:5173" }));
+app.use(cors({ origin: env.server.frontendUrl }));
 app.use(express.json());
 
-// Routes
 app.use("/api/auth", require("./modules/auth/auth.router"));
 app.use("/api/users", require("./modules/users/users.router"));
 app.use("/api/fields", require("./modules/fields/fields.router"));
-app.use(
-  "/api/fields/:fieldId/updates",
-  require("./modules/updates/updates.router"),
-);
+app.use("/api/fields/:fieldId/updates", require("./modules/updates/updates.router"));
 
 app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Backend on :${PORT}`));
+
+app.use(errorHandler);
+
+app.listen(env.server.port, () => console.log(`Backend on :${env.server.port}`));
 
 module.exports = app;
