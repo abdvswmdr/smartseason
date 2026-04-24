@@ -1,6 +1,6 @@
 CREATE DATABASE IF NOT EXISTS `smartseason-db`;
 
-USE smartseason;
+USE `smartseason-db`;
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
