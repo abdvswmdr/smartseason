@@ -1,4 +1,7 @@
 node_modules/
 dist/
 .env
+.github/
+.vscode/
 *.local
+README.md
