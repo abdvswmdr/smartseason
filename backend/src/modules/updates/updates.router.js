@@ -1,5 +1,5 @@
 const router = require("express").Router({ mergeParams: true });
-const { authenticate, requireRole } = require("../../middleware/auth");
+const { authenticate } = require("../../middleware/auth");
 const asyncHandler = require("../../middleware/asyncHandler");
 const updatesService = require("./updates.service");
 const { AppError } = require("../../utils/errors");
