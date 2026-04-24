@@ -24,8 +24,16 @@ const server = app.listen(env.server.port, () =>
   console.log(`Backend on :${env.server.port}`)
 );
 
-process.on("SIGTERM", () => {
-  server.close(() => process.exit(0));
+process.on("SIGTERM", () => server.close(() => process.exit(0)));
+
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled rejection:", reason);
+  process.exit(1);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught exception:", err);
+  process.exit(1);
 });
 
 module.exports = app;
