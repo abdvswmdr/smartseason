@@ -1,13 +1,14 @@
 FROM node:20.12-alpine3.19 AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
+COPY backend/package.json ./backend/
+RUN npm ci --workspace=backend
 
 FROM node:20.12-alpine3.19
-WORKDIR /app
-COPY --from=build /app/node_modules ./node_modules
-COPY package*.json ./
-COPY src/ ./src/
+WORKDIR /app/backend
+COPY --from=build /app/node_modules ../node_modules
+COPY backend/package.json ./
+COPY backend/src/ ./src/
 RUN npm cache clean --force
 USER node
 EXPOSE 3000
