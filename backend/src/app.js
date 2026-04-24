@@ -18,6 +18,12 @@ app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
 
 app.use(errorHandler);
 
-app.listen(env.server.port, () => console.log(`Backend on :${env.server.port}`));
+const server = app.listen(env.server.port, () =>
+  console.log(`Backend on :${env.server.port}`)
+);
+
+process.on("SIGTERM", () => {
+  server.close(() => process.exit(0));
+});
 
 module.exports = app;
