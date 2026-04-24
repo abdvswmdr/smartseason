@@ -56,7 +56,7 @@ async function createField({ name, crop_type, planting_date, assigned_to }) {
     "INSERT INTO fields (name, crop_type, planting_date, assigned_to, stage) VALUES (?, ?, ?, ?, 'Planted')",
     [name, crop_type, planting_date, assigned_to || null]
   );
-  return getFieldById(result.insertId);
+  return await getFieldById(result.insertId);
 }
 
 async function updateField(id, { name, crop_type, planting_date, assigned_to }) {
@@ -65,7 +65,7 @@ async function updateField(id, { name, crop_type, planting_date, assigned_to }) 
     "UPDATE fields SET name = ?, crop_type = ?, planting_date = ?, assigned_to = ? WHERE id = ?",
     [name, crop_type, planting_date, assigned_to || null, id]
   );
-  return getFieldById(id);
+  return await getFieldById(id);
 }
 
 async function deleteField(id) {
