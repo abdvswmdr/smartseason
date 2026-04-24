@@ -1,6 +1,7 @@
 const pool = require("../../config/db");
 const { AppError } = require("../../utils/errors");
 
+// no ad-hoc states.
 const VALID_STAGES = ["Planted", "Growing", "Ready", "Harvested"];
 
 async function addUpdate(fieldId, agentId, { stage, notes }) {
@@ -12,8 +13,10 @@ async function addUpdate(fieldId, agentId, { stage, notes }) {
     [fieldId],
   );
   if (!field) throw new AppError("Field not found", 404);
+  // auth = DB ownership, not caller-provided field metadata.
   if (field.assigned_to !== agentId) throw new AppError("Forbidden", 403);
 
+  // field snapshot first 
   await pool.query(
     "UPDATE fields SET stage = ?, updated_at = NOW() WHERE id = ?",
     [stage, fieldId],
