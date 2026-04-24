@@ -8,8 +8,10 @@ const errorHandler = require("./middleware/errorHandler");
 const app = express();
 
 app.use(helmet());
+// prevent browser creds cross-origin
 app.use(cors({ origin: env.server.frontendUrl }));
-app.use(express.json({ limit: "10kb" }));
+// low-effort abuse
+app.use(express.json({ limit: "10kb" })); 
 
 app.use("/api/auth", require("./modules/auth/auth.router"));
 app.use("/api/users", require("./modules/users/users.router"));
@@ -28,7 +30,7 @@ process.on("SIGTERM", () => server.close(() => process.exit(0)));
 
 process.on("unhandledRejection", (reason) => {
   console.error("Unhandled rejection:", reason);
-  process.exit(1);
+  process.exit(1); // clean restart 
 });
 
 process.on("uncaughtException", (err) => {

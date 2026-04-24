@@ -1,17 +1,19 @@
 const pool = require("../../config/db");
 const { AppError } = require("../../utils/errors");
 
+// status at read time won't drift from stage and timestamps
 function computeStatus(field) {
   const now = Date.now();
-  const msPerDay = 86400000;
+  const msPerDay = 86400000; // Fixed timezone-agnostic.
 
+  // prevent stale update windows marking completed fields as risky
   if (field.stage === "Harvested") return "Completed";
 
   const daysSincePlanting = (now - new Date(field.planting_date)) / msPerDay;
   const daysSinceUpdate = (now - new Date(field.updated_at)) / msPerDay;
 
   if (field.stage === "Planted" && daysSincePlanting > 30) return "At Risk";
-  if (daysSinceUpdate > 14) return "At Risk";
+  if (daysSinceUpdate > 14) return "At Risk"; // Inactivity 
 
   return "Active";
 }
